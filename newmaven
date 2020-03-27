@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+    tools { 
+        maven 'maven363' 
+        jdk 'openjdk8' 
+    }
+    options {
+        timeout(time: 30, unit: 'SECONDS')
+    }
+
+    stages {
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                ''' 
+            }
+        }
+
+        stage ('Build') {
+            steps {
+                sh "mvn clean test"
+            }
+        }
+    }
+}
